@@ -15,50 +15,58 @@ import javax.persistence.OneToMany;
 @Entity
 public class Pen {
 
-	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private long id;
-	
-	@ManyToOne
-	@JoinColumn(name = "user", referencedColumnName = "id")
-	private User user;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private long id;
 
-	private String write;
-	private int minEntries;
-	private double reward;
-	
-	private ArrayList<Brush> brushes;
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pen")
-	public ArrayList<Brush> getBrushes(){
-		return brushes;
-	}
-	
-	public void setUser(User user) {
-		this.user = user;
-	}
-	public User getUser() {
-		return user;
-	}
-	public long getId() {
-		return this.id;
-	}
-	public String getWrite() {
-		return write;
-	}
-	public void setWrite(String write) {
-		this.write = write;
-	}
-	public int getMinEntries() {
-		return minEntries;
-	}
-	public void setMinEntries(int minEntries) {
-		this.minEntries = minEntries;
-	}
-	public double getReward() {
-		return reward;
-	}
-	public void setReward(double reward) {
-		this.reward = reward;
-	}
+  @ManyToOne
+  @JoinColumn(name = "user", referencedColumnName = "id")
+  private User user;
+
+  private String write;
+  private int minEntries;
+  private double reward;
+
+  private ArrayList<Brush> brushes;
+
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "pen")
+  public ArrayList<Brush> getBrushes() {
+    return brushes;
+  }
+
+  public void setUser(User user) {
+    this.user = user;
+  }
+
+  public User getUser() {
+    return user;
+  }
+
+  public long getId() {
+    return this.id;
+  }
+
+  public String getWrite() {
+    return write;
+  }
+
+  public void setWrite(String write) {
+    this.write = write;
+  }
+
+  public int getMinEntries() {
+    return minEntries;
+  }
+
+  public void setMinEntries(int minEntries) {
+    this.minEntries = minEntries;
+  }
+
+  public double getReward() {
+    return reward;
+  }
+
+  public void setReward(double reward) {
+    this.reward = reward;
+  }
 }

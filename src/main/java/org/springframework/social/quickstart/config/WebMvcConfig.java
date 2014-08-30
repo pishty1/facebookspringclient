@@ -31,34 +31,37 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 /**
  * Spring MVC Configuration.
+ *
  * @author Keith Donald
  */
 @Configuration
 @EnableWebMvc
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new UserInterceptor(usersConnectionRepository));
-	}
-	
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-	}
-	
+  public void addInterceptors(InterceptorRegistry registry) {
+    registry.addInterceptor(new UserInterceptor(usersConnectionRepository));
+  }
 
-	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/signin");
-		registry.addViewController("/signout");
-	}
+  public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+  }
 
-	@Bean
-	public ViewResolver viewResolver() {
-		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-		viewResolver.setPrefix("/WEB-INF/views/");
-		viewResolver.setSuffix(".jsp");
-		return viewResolver;
-	}
 
-	private @Inject UsersConnectionRepository usersConnectionRepository;
+  public void addViewControllers(ViewControllerRegistry registry) {
+    registry.addViewController("/signin");
+    registry.addViewController("/signout");
+  }
+
+  @Bean
+  public ViewResolver viewResolver() {
+    InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+    viewResolver.setPrefix("/WEB-INF/views/");
+    viewResolver.setSuffix(".jsp");
+    return viewResolver;
+  }
+
+  private
+  @Inject
+  UsersConnectionRepository usersConnectionRepository;
 
 }

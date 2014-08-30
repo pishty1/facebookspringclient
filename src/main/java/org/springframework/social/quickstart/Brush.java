@@ -7,31 +7,31 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class Brush {
-	
-	@Id
-	private long id;
-	
-	@ManyToOne
-	@JoinColumn(name = "user", referencedColumnName = "id")
-	private User user;
-	
-	@ManyToOne
-	@JoinColumn(name = "pen" , referencedColumnName = "id")
-	private Pen pen;
-	
-	public Pen getPen() {
-		return pen;
-	}
 
-	public void setPen(Pen pen) {
-		this.pen = pen;
-	}
+  @Id
+  private long id;
 
-	public long getId() {
-		return id;
-	}
+  @ManyToOne
+  @JoinColumn(name = "user", referencedColumnName = "id")
+  private User user;
 
-	public void setId(long id) {
-		this.id = id;
-	}
+  @ManyToOne
+  @JoinColumn(name = "pen", referencedColumnName = "id")
+  private Pen pen;
+
+  public Pen getPen() {
+    return pen;
+  }
+
+  public void setPen(Pen pen) {
+    this.pen = pen;
+  }
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
 }

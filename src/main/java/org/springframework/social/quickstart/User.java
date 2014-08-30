@@ -10,29 +10,29 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class User {
-	
-	@Id
-	private String id;
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-	private List<Pen> pens = new ArrayList<Pen>();
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-	private List<Brush> brushes = new ArrayList<Brush>();
 
-	public String getId() {
-		return id;
-	}
+  @Id
+  private String id;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+  private List<Pen> pens = new ArrayList<Pen>();
 
-	public List<Pen> getPens() {
-		return pens;
-	}
-	
-	public List<Brush> getBrushes() {
-		return brushes;
-	}
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+  private List<Brush> brushes = new ArrayList<Brush>();
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public List<Pen> getPens() {
+    return pens;
+  }
+
+  public List<Brush> getBrushes() {
+    return brushes;
+  }
 }
