@@ -25,9 +25,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import jdk.nashorn.internal.ir.RuntimeNode;
 
 /**
  * Simple little @Controller that invokes Facebook and renders the result. The injected {@link Facebook} reference is configured with the required authorization
@@ -88,6 +91,38 @@ public class HomeController {
     return "createteam";
   }
 
+  @RequestMapping(value = "/teams/schedule/{id}", method = RequestMethod.GET)
+  public String scheduleGames(@PathVariable("id") long id, Model model) {
+    Team team = teamService.find(id);
+    ScheduleBean scheduleBean = new ScheduleBean();
+    scheduleBean.setId(id);
+    model.addAttribute("schedBean", scheduleBean);
+    model.addAttribute("team", team);
+    return "scheduling";
+  }
+
+
+  @RequestMapping(value = "/teams/schedule/create", method = RequestMethod.POST)
+  public String createSchedule(@ModelAttribute("schedBean") ScheduleBean scheduleBean, Model model) {
+    System.out.println("scheduleBean.isEveryMod() = " + scheduleBean.isEveryMod());
+    teamService.createGames(scheduleBean);
+    return "redirect:/teams/"  + scheduleBean.getId() + "/games";
+  }
+
+  @RequestMapping(value = "/teams/{id}/games", method = RequestMethod.GET)
+  public String getGames(@PathVariable("id") long id, Model model) {
+    Team team = teamService.find(id);
+    model.addAttribute("team", team);
+    return "games";
+  }
+
+
+  @RequestMapping(value = "/games/{id}", method = RequestMethod.GET)
+  public String getGame(@PathVariable("id") long id, Model model) {
+    Game game = teamService.getGame(id);
+    model.addAttribute("game", game);
+    return "showgame";
+  }
 
   @RequestMapping(value = "/teams/enterpass", method = RequestMethod.GET)
   public String enterPassTeam(Model model) {
@@ -100,9 +135,9 @@ public class HomeController {
   public String joinTeam(@ModelAttribute("Team") Team myTeam, Model model) {
     FacebookProfile userProfile = facebook.userOperations().getUserProfile();
     System.out.println("this is myTeam = " + myTeam.getTpass());
-    teamService.isPlayerPartOfTeam(userProfile, myTeam);
+    Team team = teamService.joinPlayer(userProfile, myTeam);
 
-    return "redirect:/teams/" + myTeam.getId();
+    return "redirect:/teams/" + team.getId();
   }
 
   @RequestMapping(value = "/teams/add", method = RequestMethod.POST)
@@ -110,13 +145,17 @@ public class HomeController {
     System.out.println("team.getName() = " + team.getName());
     System.out.println("team.getTpass() = " + team.getTpass());
 
-    Team savedteam = teamService.save(team);
+    Team savedteam = teamService.save(team, facebook.userOperations().getUserProfile());
     return "redirect:/teams/" + savedteam.getId();
   }
 
   @RequestMapping(value = "teams/{id}", method = RequestMethod.GET)
   public String getTeam(@PathVariable("id") long id, Model model) {
     Team team = teamService.find(id);
+    for (Player player : team.getPlayers()) {
+      System.out.println("player = " + player.getName());
+    }
+
     model.addAttribute("team", team);
     return "showteam";
   }

@@ -8,7 +8,7 @@
 	<packaging>war</packaging>
 	<version>1.0.0</version>
 	<properties>
-		<java-version>1.7</java-version>
+		<java-version>1.8</java-version>
 		<org.springframework.social-version>1.1.0.BUILD-SNAPSHOT</org.springframework.social-version>
 		<org.springframework.social.facebook-version>1.1.0.BUILD-SNAPSHOT</org.springframework.social.facebook-version>
 		<org.springframework-version>4.0.6.RELEASE</org.springframework-version>
@@ -128,8 +128,18 @@
             <artifactId>commons-dbcp</artifactId>
             <version>1.4</version>
         </dependency>
-		<!-- CGLIB, only required and used for @Configuration usage: could be removed 
-			in future release of Spring -->
+        <dependency>
+            <groupId>io.lamma</groupId>
+            <artifactId>lamma_2.11</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.4</version>
+        </dependency>
+        <!-- CGLIB, only required and used for @Configuration usage: could be removed
+            in future release of Spring -->
 		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib-nodep</artifactId>

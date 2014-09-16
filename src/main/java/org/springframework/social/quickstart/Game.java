@@ -1,5 +1,6 @@
 package org.springframework.social.quickstart;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -9,40 +10,22 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
- * Created by pishty on 27/08/14.
+ * Created by pishty on 31/08/14.
  */
 @Entity
-public class Player {
+public class Game {
 
   @Id
   @GeneratedValue
   private long id;
 
-  private String fbId;
-
-  private String name;
-
-  @OneToMany(mappedBy = "player")
-  private List<Availability> availabilities;
-
   @ManyToOne
   private Team team;
 
-  public long getId() {
-    return id;
-  }
+  @OneToMany(mappedBy = "game" )
+  private List<Availability> availabilities;
 
-  public void setId(long id) {
-    this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
+  private Date date;
 
   public Team getTeam() {
     return team;
@@ -52,12 +35,20 @@ public class Player {
     this.team = team;
   }
 
-  public String getFbId() {
-    return fbId;
+  public long getId() {
+    return id;
   }
 
-  public void setFbId(String fbId) {
-    this.fbId = fbId;
+  public void setId(long id) {
+    this.id = id;
+  }
+
+  public Date getDate() {
+    return date;
+  }
+
+  public void setDate(Date date) {
+    this.date = date;
   }
 
   public List<Availability> getAvailabilities() {

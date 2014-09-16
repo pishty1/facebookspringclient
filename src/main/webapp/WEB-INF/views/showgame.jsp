@@ -4,8 +4,7 @@
 <t:daddy pageNumber='2'>
 	<div class="col-lg-12">
 		<div class="page-header">
-			<h1 id="navbar">${team.name} - managed by ${team.manager.name}</h1>
-			<a href="schedule/${team.id}" class="label label-default">Schedule game dates</a>
+			<h1 id="navbar">State Your Availability</h1>
 		</div>
 	</div>
 	<div class="bs-example table-responsive">
@@ -13,10 +12,12 @@
 			<tbody>
 				<tr>
 					<th>Player name</th>
+					<th></th>
 				</tr>
-				<c:forEach var="player" items="${team.players}">
-					<tr class="active" onclick="document.location = 'players/${player.id}';">
-						<td><c:out value="${player.name}" /></td>
+				<c:forEach var="availability" items="${game.availabilities}">
+					<tr class="active"  >
+					    <td>${availability.player.name}</td>
+					    <td>${availability.status}</td>
 					</tr>
 				</c:forEach>
 			</tbody>

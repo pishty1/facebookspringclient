@@ -1,5 +1,6 @@
 package org.springframework.social.quickstart;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -7,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  * Created by pishty on 26/08/14.
@@ -23,6 +25,12 @@ public class Team {
   private String tpass;
 
   private int teamType;
+
+  @OneToOne
+  private Player manager;
+
+  @OneToMany(mappedBy = "team")
+  private List<Game> games;
 
   @OneToMany(mappedBy = "team")
   private List<Player> players;
@@ -65,5 +73,21 @@ public class Team {
 
   public void setPlayers(List<Player> players) {
     this.players = players;
+  }
+
+  public Player getManager() {
+    return manager;
+  }
+
+  public void setManager(Player manager) {
+    this.manager = manager;
+  }
+
+  public List<Game> getGames() {
+    return games;
+  }
+
+  public void setGames(List<Game> games) {
+    this.games = games;
   }
 }

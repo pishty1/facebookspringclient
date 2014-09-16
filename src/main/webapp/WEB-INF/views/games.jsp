@@ -13,10 +13,12 @@
 			<tbody>
 				<tr>
 					<th>Player name</th>
+					<th></th>
 				</tr>
-				<c:forEach var="player" items="${team.players}">
-					<tr class="active" onclick="document.location = 'players/${player.id}';">
-						<td><c:out value="${player.name}" /></td>
+				<c:forEach var="game" items="${team.games}">
+					<tr class="active"  >
+					    <td>${game.date}</td>
+					    <td><a href="../../games/${game.id}" class="btn btn-primary">Primary</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>
