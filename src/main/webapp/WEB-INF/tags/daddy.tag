@@ -22,7 +22,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                   </button>
-                  <a class="navbar-brand" href="bidwithcoins">home</a>
+                  <a class="navbar-brand" href="whosinthen">home</a>
                 </div>
                 <div class="navbar-collapse collapse navbar-responsive-collapse">
                   <ul class="nav navbar-nav">
@@ -30,7 +30,7 @@
                     <li class="${pageNumber == 2 ? 'active' : ''}"><a href="<%=request.getContextPath()%>/mygames" >My Games</a></li>
                   </ul>
                   <ul class="nav navbar-nav navbar-right">
-                  	<li class="${pageNumber == 3 ? 'active' : ''}"><a href="<%=request.getContextPath()%>/account" >account</a></li>
+                  	<li class="${pageNumber == 3 ? 'active' : ''}"><a href="<%=request.getContextPath()%>/imanage" >teams i manage</a></li>
                     <li class="${pageNumber == 4 ? 'active' : ''}"><a href="<%=request.getContextPath()%>/sign" >signin</a></li>
                     <li class="${pageNumber == 5 ? 'active' : ''}"><a href="<%=request.getContextPath()%>/signup" >signup</a></li>
                   </ul>

@@ -113,37 +113,37 @@ public class TeamService {
 
     if (scheduleBean.isEveryMod()) {
       List<Date> bDates = allDates.on(DayOfWeek.MONDAY).build();
-      builtDates = addDates(builtDates, bDates);
+      builtDates.addAll(bDates);
     }
 
     if (scheduleBean.isEveryTue()) {
       List<Date> bDates = allDates.on(DayOfWeek.TUESDAY).build();
-      builtDates = addDates(builtDates, bDates);
+      builtDates.addAll(bDates);
     }
 
     if (scheduleBean.isEveryWed()) {
       List<Date> bDates = allDates.on(DayOfWeek.WEDNESDAY).build();
-      builtDates = addDates(builtDates, bDates);
+      builtDates.addAll(bDates);
     }
 
     if (scheduleBean.isEveryThur()) {
       List<Date> bDates = allDates.on(DayOfWeek.THURSDAY).build();
-      builtDates = addDates(builtDates, bDates);
+      builtDates.addAll(bDates);
     }
 
     if (scheduleBean.isEveryFri()) {
       List<Date> bDates = allDates.on(DayOfWeek.FRIDAY).build();
-      builtDates = addDates(builtDates, bDates);
+      builtDates.addAll(bDates);
     }
 
     if (scheduleBean.isEverySat()) {
       List<Date> bDates = allDates.on(DayOfWeek.SATURDAY).build();
-      builtDates = addDates(builtDates, bDates);
+      builtDates.addAll(bDates);
     }
 
     if (scheduleBean.isEverySun()) {
       List<Date> bDates = allDates.on(DayOfWeek.SUNDAY).build();
-      builtDates = addDates(builtDates, bDates);
+      builtDates.addAll(bDates);
     }
 
     for (Date date : builtDates) {
@@ -174,19 +174,22 @@ public class TeamService {
         availability.setPlayer(player);
         availability.setStatus("Undefined");
         avaRepository.save(availability);
+        game.getAvailabilities().add(availability);
       }
-      Game game2 = gameRepository.findOne(id);
-      Hibernate.initialize(game2.getAvailabilities());
-      System.out.println("game2.getAvailabilities().size() = " + game2.getAvailabilities().size());
     }
-    System.out.println("game2.getAvailabilities().size() = " + game.getAvailabilities().size());
     return game;
   }
 
-  private ArrayList<Date> addDates(ArrayList<Date> myDates, List<Date> newDates) {
-    for (Date date : newDates) {
-      myDates.add(date);
-    }
-    return myDates;
+  public Availability saveAvailability(Availability availability) {
+    Availability one = avaRepository.findOne(availability.getId());
+    one.setStatus(availability.getStatus());
+    Availability save = avaRepository.save(one);
+    System.out.println("saved = " + save.getStatus());
+    return save;
+  }
+
+  public List<Team> findTeamsByManager(String fbId) {
+    List<Team> teams = teamTepository.findTeamsByManagerId(fbId);
+    return teams;
   }
 }

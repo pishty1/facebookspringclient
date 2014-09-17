@@ -4,23 +4,22 @@
 <t:daddy pageNumber='2'>
 	<div class="col-lg-12">
 		<div class="page-header">
-			<h1 id="navbar">${team.name} - managed by ${team.manager.name}</h1>
-			<a href="schedule/${team.id}" class="label label-default">Schedule game dates</a>
+			<h1 id="navbar">Teams You Manage</h1>
 		</div>
 	</div>
 	<div class="bs-example table-responsive">
 		<table class="table table-striped table-hover ">
 			<tbody>
 				<tr>
-					<th>Game date and time</th>
-					<th># players available</th>
+					<th>Team name</th>
+					<th>Password</th>
 					<th></th>
 				</tr>
-				<c:forEach var="game" items="${team.games}">
+				<c:forEach var="team" items="${teams}">
 					<tr class="active">
-					    <td>${game.date}</td>
-					    <td>6</td>
-					    <td><a href="../../games/${game.id}" class="btn btn-primary">See availability</a></td>
+					    <td>${team.name}</td>
+					    <td>${team.tpass}</td>
+					    <td><a href="teams/${team.id}" class="btn btn-primary">Manage</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>

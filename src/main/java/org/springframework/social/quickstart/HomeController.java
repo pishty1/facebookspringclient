@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -56,25 +57,6 @@ public class HomeController {
   @RequestMapping(value = "/", method = RequestMethod.GET)
   public String home(Model model) {
     List<Reference> friends = facebook.friendOperations().getFriends();
-    FacebookProfile userProfile = facebook.userOperations().getUserProfile();
-
-    /*if (userService.userExists(userProfile.getId())) {
-      System.out.println("the user exist");
-      userService.getUser(userProfile.getId());
-    } else {
-      System.out.println("the user doesnt exist");
-      user = new User();
-      user.setId(userProfile.getId());
-      userService.saveUser(user);
-    }*/
-
-//    System.out.println("firends size is " + friends.size() + " user id is =" + user.getId());
-//		int counter = 0;
-//		for (Reference reference : friends) {
-//			FacebookProfile userProfile = facebook.userOperations().getUserProfile(reference.getId());
-//			String email = userProfile.getEmail();
-//			System.out.println(counter++ + ") email is ====== " +email);
-//		}
     model.addAttribute("friends", friends);
     return "home";
   }
@@ -120,8 +102,23 @@ public class HomeController {
   @RequestMapping(value = "/games/{id}", method = RequestMethod.GET)
   public String getGame(@PathVariable("id") long id, Model model) {
     Game game = teamService.getGame(id);
+    Availability availability = new Availability();
+    List<String> statuses = new ArrayList<>();
+    statuses.add("Undefined");
+    statuses.add("Not sure");
+    statuses.add("Will Be there");
+    statuses.add("Cant make it");
+    model.addAttribute("availability", availability);
+    model.addAttribute("statuses", statuses);
+    model.addAttribute("fbId", facebook.userOperations().getUserProfile().getId());
     model.addAttribute("game", game);
     return "showgame";
+  }
+
+  @RequestMapping(value = "/games/{id}/ava", method = RequestMethod.POST)
+  public String editAva(@ModelAttribute("availability") Availability availability, @PathVariable("id") long id, Model model) {
+    Availability savedAvailability = teamService.saveAvailability(availability);
+    return "redirect:/games/" + id;
   }
 
   @RequestMapping(value = "/teams/enterpass", method = RequestMethod.GET)
@@ -134,17 +131,12 @@ public class HomeController {
   @RequestMapping(value = "/teams/get", method = RequestMethod.POST)
   public String joinTeam(@ModelAttribute("Team") Team myTeam, Model model) {
     FacebookProfile userProfile = facebook.userOperations().getUserProfile();
-    System.out.println("this is myTeam = " + myTeam.getTpass());
     Team team = teamService.joinPlayer(userProfile, myTeam);
-
     return "redirect:/teams/" + team.getId();
   }
 
   @RequestMapping(value = "/teams/add", method = RequestMethod.POST)
   public String addTeam(@ModelAttribute("Team") Team team) {
-    System.out.println("team.getName() = " + team.getName());
-    System.out.println("team.getTpass() = " + team.getTpass());
-
     Team savedteam = teamService.save(team, facebook.userOperations().getUserProfile());
     return "redirect:/teams/" + savedteam.getId();
   }
@@ -155,7 +147,6 @@ public class HomeController {
     for (Player player : team.getPlayers()) {
       System.out.println("player = " + player.getName());
     }
-
     model.addAttribute("team", team);
     return "showteam";
   }
@@ -165,6 +156,15 @@ public class HomeController {
     List<Reference> friends = facebook.friendOperations().getFriends();
     model.addAttribute("friends", friends);
     return "home";
+  }
+
+  @RequestMapping(value = "/imanage", method = RequestMethod.GET)
+  public String imanage(Model model) {
+    String fbId = facebook.userOperations().getUserProfile().getId();
+    List<Team> teams = teamService.findTeamsByManager(fbId);
+    System.out.println("teams.size() = " + teams.size());
+    model.addAttribute("teams", teams);
+    return "showteams";
   }
 
 }
