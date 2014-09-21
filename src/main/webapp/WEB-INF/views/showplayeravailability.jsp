@@ -17,19 +17,19 @@
 					<th class="col-lg-2">Status</th>
 					<th class="col-lg-2"></th>
 				</tr>
-				<c:forEach var="availability" items="${game.availabilities}">
+				<c:forEach var="ava" items="${game.availabilities}">
 					<tr class="active">
-					    <c:if test="${availability.player.fbId eq fbId}">
+					    <c:if test="${ava.player.fbId eq fbId}">
                             <form:form class="bs-example form-horizontal"  modelAttribute="availability" action="${game.id}/ava" method="POST">
-					            <td><form:input type="hidden" class="form-control" id="name" path="id" value="${availability.id}"/></td>
-                                <td>${availability.player.name}</td>
+					            <td><form:input type="hidden" class="form-control" id="name" path="id" value="${ava.id}"/></td>
+                                <td>${ava.player.name}</td>
                                 <td>
                                     <form:select path="status" class="form-control" multiple="false">
                                        <c:forEach var="sta" items="${statuses}">
-                                           <c:if test="${sta eq availability.status}">
+                                           <c:if test="${sta eq ava.status}">
                                                <form:option value="${sta}" label="${sta}" selected="selected" />
                                            </c:if>
-                                           <c:if test="${sta ne availability.status}">
+                                           <c:if test="${sta ne ava.status}">
                                                <form:option value="${sta}" label="${sta}" />
                                           </c:if>
                                        </c:forEach>

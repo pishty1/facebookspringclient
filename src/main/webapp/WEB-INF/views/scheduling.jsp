@@ -14,7 +14,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6">
-              <form:form class="bs-example form-horizontal"  modelAttribute="schedBean" action="create" method="POST">
+              <form:form class="bs-example form-horizontal"  modelAttribute="schedBean" action="../schedule/create" method="POST">
                   <fieldset>
                     <form:hidden path="id" />
                     <div class="form-group">

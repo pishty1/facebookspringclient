@@ -1,5 +1,7 @@
 package org.springframework.social.quickstart;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * Created by pishty on 31/08/14.
@@ -25,6 +29,8 @@ public class Game {
   @OneToMany(mappedBy = "game" )
   private List<Availability> availabilities;
 
+
+  @DateTimeFormat(pattern =  "dd/MM/YY HH:mm")
   private Date date;
 
   public Team getTeam() {
@@ -45,6 +51,20 @@ public class Game {
 
   public Date getDate() {
     return date;
+  }
+
+  public int getAvailablePlayers() {
+    int count = 0;
+    for (Availability availability : availabilities) {
+      if(availability.getStatus().equals(TeamService.THERE)){
+        count ++;
+      }
+    }
+    return count;
+  }
+
+  public String getFd() {
+    return TeamService.simpleDateFormat.format(this.date);
   }
 
   public void setDate(Date date) {

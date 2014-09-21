@@ -6,11 +6,10 @@
 			<h1 id="navbar">Welcome !</h1>
 		</div>
 		<div class="col-lg-12">
-		    <a href="teams/create" class="btn btn-primary">Create Your Team</a>
+		    <a href="manager/teams/create" class="btn btn-primary">Create Your Team</a>
 		</div>
 		<div class="col-lg-12">
-            <a href="teams/enterpass" class="btn btn-success">Join Your Team</a>
+            <a href="player/teams/enterpass" class="btn btn-success">Join Your Team</a>
         </div>
-
 	</div>
 </t:daddy>

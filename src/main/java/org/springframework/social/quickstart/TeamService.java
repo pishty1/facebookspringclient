@@ -4,6 +4,7 @@ import org.hibernate.Hibernate;
 import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -24,26 +25,35 @@ import scala.collection.convert.Wrappers;
 public class TeamService {
 
   @Inject
-  TeamRepository teamTepository;
+  private TeamRepository teamTepository;
 
   @Inject
-  PlayerRepository playerRepository;
+  private PlayerRepository playerRepository;
 
   @Inject
-  GameRepository gameRepository;
+  private GameRepository gameRepository;
 
   @Inject
-  AvaRepository avaRepository;
+  private AvaRepository avaRepository;
 
+  @Inject
+  private ManagerRepository managerRepository;
+
+  public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yy HH:mm");
+
+  public static final String UNDEFINED = "Undefined";
+  public static final String NOTSURE = "Not sure";
+  public static final String THERE = "Will Be there";
+  public static final String CANT = "Cant make it";
 
 
   public Team save(Team team, FacebookProfile userProfile) {
     Team savedTeam = teamTepository.save(team);
-    Player manager = new Player();
+    Manager manager = new Manager();
     manager.setName(userProfile.getName());
     manager.setFbId(userProfile.getId());
-    manager.setTeam(savedTeam);
-    playerRepository.save(manager);
+    manager.getTeams().add(savedTeam);
+    managerRepository.save(manager);
     savedTeam.setManager(manager);
     Team saveTeam1 = teamTepository.save(savedTeam);
     return saveTeam1;
@@ -54,6 +64,7 @@ public class TeamService {
     Team team = teamTepository.findOne(id);
     Hibernate.initialize(team.getPlayers());
     Hibernate.initialize(team.getGames());
+    team.getGames().forEach((x) -> Hibernate.initialize(x.getAvailabilities()));
     Collections.sort(team.getGames(), (Game g1, Game g2) -> g1.getDate().compareTo(g2.getDate()));
     return team;
   }
@@ -83,11 +94,15 @@ public class TeamService {
     }
     if (!isInTeam) {
       System.out.println("This player is not in team already");
-      message = "New";
-      Player player = new Player();
-      player.setFbId(fbProfile.getId());
-      player.setName(fbProfile.getName());
-      player.setTeam(one);
+      Player player = playerRepository.findPlayerByFbId(fbProfile.getId());
+      if(player != null) {
+        player.getTeam().add(one);
+      } else {
+        player = new Player();
+        player.setFbId(fbProfile.getId());
+        player.setName(fbProfile.getName());
+        player.getTeam().add(one);
+      }
       playerRepository.save(player);
     }
     return one;
@@ -97,6 +112,8 @@ public class TeamService {
     Iterable<Team> all = teamTepository.findAll();
     return all;
   }
+
+
 
   @Transactional
   public void createGames(ScheduleBean scheduleBean) {
@@ -157,18 +174,19 @@ public class TeamService {
     }
   }
 
+  public Game saveGame(Game game) {
+    return gameRepository.save(game);
+  }
+
   @Transactional
-  public Game getGame(long id) {
+  public Game findGameWithAvailability(long id) {
     Game game = gameRepository.findOne(id);
     Hibernate.initialize(game.getAvailabilities());
     Hibernate.initialize(game.getTeam().getPlayers());
     System.out.println("game.getTeam().getPlayers().size() = " + game.getTeam().getPlayers().size());
     if (game.getAvailabilities().size() == 0) {
-      System.out.println("inside if");
       List<Player> players = game.getTeam().getPlayers();
       for (Player player : players) {
-        System.out.println("inside For");
-
         Availability availability = new Availability();
         availability.setGame(game);
         availability.setPlayer(player);
@@ -177,6 +195,13 @@ public class TeamService {
         game.getAvailabilities().add(availability);
       }
     }
+    return game;
+  }
+
+
+  @Transactional
+  public Game getGame(long id) {
+    Game game = gameRepository.findOne(id);
     return game;
   }
 
@@ -191,5 +216,13 @@ public class TeamService {
   public List<Team> findTeamsByManager(String fbId) {
     List<Team> teams = teamTepository.findTeamsByManagerId(fbId);
     return teams;
+  }
+
+  @Transactional
+  public Player getPlayerByFbId(String id) {
+    Player player = playerRepository.findPlayerByFbId(id);
+    Hibernate.initialize(player.getTeam());
+    player.getTeam().forEach((team) -> Hibernate.initialize(team.getGames()));
+    return player;
   }
 }

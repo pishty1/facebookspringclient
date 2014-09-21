@@ -5,7 +5,7 @@
 <t:daddy pageNumber='2'>
 	<div class="col-lg-12">
 		<div class="page-header">
-			<h1 id="navbar">Player Availability</h1>
+			<h1 id="navbar">Players Availability</h1>
 		</div>
 	</div>
 	<div class="bs-example table-responsive">

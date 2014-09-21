@@ -9,7 +9,7 @@
 		<div class="row">
 			<div class="col-lg-12">
             <div class="well">
-              <form:form class="bs-example form-horizontal" modelAttribute="Team" action="get" method="POST">
+              <form:form class="bs-example form-horizontal" modelAttribute="Team" action="join" method="POST">
                 <fieldset>
                   <div class="form-group">
                     <form:label for="tpass" class="col-lg-2 control-label" path="tpass">Team password</form:label>

@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -26,13 +27,13 @@ public class Team {
 
   private int teamType;
 
-  @OneToOne
-  private Player manager;
+  @ManyToOne
+  private Manager manager;
 
   @OneToMany(mappedBy = "team")
   private List<Game> games;
 
-  @OneToMany(mappedBy = "team")
+  @ManyToMany(mappedBy = "team")
   private List<Player> players;
 
   public long getId() {
@@ -75,11 +76,11 @@ public class Team {
     this.players = players;
   }
 
-  public Player getManager() {
+  public Manager getManager() {
     return manager;
   }
 
-  public void setManager(Player manager) {
+  public void setManager(Manager manager) {
     this.manager = manager;
   }
 
