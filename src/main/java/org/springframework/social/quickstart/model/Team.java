@@ -1,6 +1,9 @@
-package org.springframework.social.quickstart;
+package org.springframework.social.quickstart.model;
 
-import java.util.ArrayList;
+import org.springframework.social.quickstart.model.Game;
+import org.springframework.social.quickstart.model.Manager;
+import org.springframework.social.quickstart.model.Player;
+
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -9,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 /**
  * Created by pishty on 26/08/14.

@@ -1,6 +1,7 @@
-package org.springframework.social.quickstart;
+package org.springframework.social.quickstart.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.social.quickstart.TeamService;
 
 import java.util.Date;
 import java.util.List;
@@ -10,8 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  * Created by pishty on 31/08/14.

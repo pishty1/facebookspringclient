@@ -22,7 +22,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseFactory;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
@@ -33,11 +32,8 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
-import org.springframework.social.quickstart.BrushService;
 import org.springframework.social.quickstart.FileService;
-import org.springframework.social.quickstart.PenService;
 import org.springframework.social.quickstart.TeamService;
-import org.springframework.social.quickstart.UserService;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -104,24 +100,6 @@ public class MainConfig {
     CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
     commonsMultipartResolver.setMaxUploadSize(1000000);
     return commonsMultipartResolver;
-  }
-
-  @Bean
-  public PenService penService() {
-    PenService penService = new PenService();
-    return penService;
-  }
-
-  @Bean
-  public UserService userService() {
-    UserService userService = new UserService();
-    return userService;
-  }
-
-  @Bean
-  public BrushService brushService() {
-    BrushService brushService = new BrushService();
-    return brushService;
   }
 
   @Bean

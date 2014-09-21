@@ -6,6 +6,7 @@
 		<div class="page-header">
 			<h1 id="navbar">${team.name} - managed by ${team.manager.name}</h1>
 			<a href="${team.id}/schedule" class="label label-default">Schedule game dates</a>
+			<a href="${team.id}/games" class="label label-success">See games</a>
 		</div>
 	</div>
 	<div class="bs-example table-responsive">

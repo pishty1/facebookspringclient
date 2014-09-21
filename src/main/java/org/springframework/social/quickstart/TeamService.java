@@ -2,13 +2,22 @@ package org.springframework.social.quickstart;
 
 import org.hibernate.Hibernate;
 import org.springframework.social.facebook.api.FacebookProfile;
+import org.springframework.social.quickstart.model.Availability;
+import org.springframework.social.quickstart.model.Game;
+import org.springframework.social.quickstart.model.Manager;
+import org.springframework.social.quickstart.model.Player;
+import org.springframework.social.quickstart.model.Team;
+import org.springframework.social.quickstart.repos.AvaRepository;
+import org.springframework.social.quickstart.repos.GameRepository;
+import org.springframework.social.quickstart.repos.ManagerRepository;
+import org.springframework.social.quickstart.repos.PlayerRepository;
+import org.springframework.social.quickstart.repos.TeamRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -17,7 +26,6 @@ import javax.inject.Inject;
 import io.lamma.Date;
 import io.lamma.Dates;
 import io.lamma.DayOfWeek;
-import scala.collection.convert.Wrappers;
 
 /**
  * Created by pishty on 26/08/14.

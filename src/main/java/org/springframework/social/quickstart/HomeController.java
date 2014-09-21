@@ -18,6 +18,10 @@ package org.springframework.social.quickstart;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.social.facebook.api.Reference;
+import org.springframework.social.quickstart.model.Availability;
+import org.springframework.social.quickstart.model.Game;
+import org.springframework.social.quickstart.model.Player;
+import org.springframework.social.quickstart.model.Team;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -44,8 +48,6 @@ public class HomeController {
   private final Facebook facebook;
   private final TeamService teamService;
 
-  private User user;
-
   @Inject
   public HomeController(Facebook facebook, TeamService teamService) {
     this.facebook = facebook;
@@ -56,7 +58,7 @@ public class HomeController {
   public String home(Model model) {
     /*Model<Reference> friends = facebook.friendOperations().getFriends();
     model.addAttribute("friends", friends);*/
-    return "bidHome";
+    return "whoshome";
   }
 
   @RequestMapping(value = "/whosinthen", method = RequestMethod.GET)

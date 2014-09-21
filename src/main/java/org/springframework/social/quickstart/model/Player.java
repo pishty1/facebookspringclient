@@ -1,4 +1,4 @@
-package org.springframework.social.quickstart;
+package org.springframework.social.quickstart.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,13 +6,14 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 /**
- * Created by pishty on 19/09/14.
+ * Created by pishty on 27/08/14.
  */
 @Entity
-public class Manager {
+public class Player {
 
   @Id
   @GeneratedValue
@@ -22,8 +23,11 @@ public class Manager {
 
   private String name;
 
-  @OneToMany(mappedBy = "manager")
-  private List<Team> teams = new ArrayList<>();
+  @OneToMany(mappedBy = "player")
+  private List<Availability> availabilities;
+
+  @ManyToMany
+  private List<Team> team = new ArrayList<>();
 
   public long getId() {
     return id;
@@ -41,12 +45,12 @@ public class Manager {
     this.name = name;
   }
 
-  public List<Team> getTeams() {
-    return teams;
+  public List<Team> getTeam() {
+    return team;
   }
 
-  public void setTeams(List<Team> teams) {
-    this.teams = teams;
+  public void setTeam(List<Team> teams) {
+    this.team = teams;
   }
 
   public String getFbId() {
@@ -55,5 +59,13 @@ public class Manager {
 
   public void setFbId(String fbId) {
     this.fbId = fbId;
+  }
+
+  public List<Availability> getAvailabilities() {
+    return availabilities;
+  }
+
+  public void setAvailabilities(List<Availability> availabilities) {
+    this.availabilities = availabilities;
   }
 }

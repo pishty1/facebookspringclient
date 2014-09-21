@@ -1,10 +1,9 @@
-package org.springframework.social.quickstart;
+package org.springframework.social.quickstart.repos;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-
-import sun.security.krb5.internal.crypto.crc32;
+import org.springframework.social.quickstart.model.Team;
 
 import java.util.List;
 

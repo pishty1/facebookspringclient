@@ -1,4 +1,4 @@
-package org.springframework.social.quickstart;
+package org.springframework.social.quickstart.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
