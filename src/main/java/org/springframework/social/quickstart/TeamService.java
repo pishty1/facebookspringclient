@@ -230,7 +230,14 @@ public class TeamService {
   public Player getPlayerByFbId(String id) {
     Player player = playerRepository.findPlayerByFbId(id);
     Hibernate.initialize(player.getTeam());
-    player.getTeam().forEach((team) -> Hibernate.initialize(team.getGames()));
+    List<Team> teams = player.getTeam();
+    for(Team team: teams) {
+      Hibernate.initialize(team.getGames());
+      List<Game> games = team.getGames();
+      for(Game game : games) {
+        Hibernate.initialize(game.getAvailablePlayers());
+      }
+    }
     return player;
   }
 }

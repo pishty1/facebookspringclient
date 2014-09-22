@@ -14,12 +14,22 @@
 				<tr>
 				    <th class="col-sm-1">Date</th>
 					<th class="col-lg-2">Team name</th>
+					<th class="col-lg-2"># of available players</th>
+					<th class="col-lg-2">Your status</th>
 					<th class="col-lg-2"></th>
 				</tr>
 				<c:forEach var="game" items="${games}">
 					<tr class="active">
                         <td>${game.fd}</td>
                         <td>${game.team.name}</td>
+                        <td>${game.availablePlayers}</td>
+                        <td>
+                            <c:forEach var="availability" items="${game.availabilities}">
+                                <c:if test="${availability.player.fbId eq fbid}">
+                                    ${availability.status}
+                                </c:if>
+                            </c:forEach>
+                        </td>
                         <td><a href="games/${game.id}" class="btn btn-success">Availability</a></td>
 					</tr>
 				</c:forEach>

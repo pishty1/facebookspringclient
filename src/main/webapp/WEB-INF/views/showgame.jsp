@@ -6,6 +6,7 @@
 	<div class="col-lg-12">
 		<div class="page-header">
 			<h1 id="navbar">Players Availability</h1>
+			<a href="../teams/${game.team.id}/games" class="label label-success">See games</a>
 		</div>
 	</div>
 	<div class="bs-example table-responsive">

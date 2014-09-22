@@ -15,6 +15,7 @@
  */
 package org.springframework.social.quickstart;
 
+import org.hibernate.Hibernate;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.FacebookProfile;
 import org.springframework.social.facebook.api.Reference;
@@ -63,7 +64,7 @@ public class HomeController {
 
   @RequestMapping(value = "/whosinthen", method = RequestMethod.GET)
   public String bidCoins(Model model) {
-    return "bidHome";
+    return "whoshome";
   }
 
   @RequestMapping(value = "/manager/teams/create", method = RequestMethod.GET)
@@ -120,22 +121,6 @@ public class HomeController {
     return "showgame";
   }
 
-  @RequestMapping(value = "/player/games/{id}", method = RequestMethod.GET)
-  public String getGameForPlayer(@PathVariable("id") long id, Model model) {
-    Game game = teamService.findGameWithAvailability(id);
-    Availability availability = new Availability();
-    List<String> statuses = new ArrayList<>();
-    statuses.add(TeamService.UNDEFINED);
-    statuses.add(TeamService.NOTSURE);
-    statuses.add(TeamService.THERE);
-    statuses.add(TeamService.CANT);
-    model.addAttribute("availability", availability);
-    model.addAttribute("statuses", statuses);
-    model.addAttribute("fbId", facebook.userOperations().getUserProfile().getId());
-    model.addAttribute("game", game);
-    return "showplayeravailability";
-  }
-
   @RequestMapping(value = "/manager/games/{id}/edit", method = RequestMethod.GET)
   public String findGame(@PathVariable("id") long id, Model model) {
     Game game = teamService.getGame(id);
@@ -167,12 +152,13 @@ public class HomeController {
   @RequestMapping(value = "/player/games", method = RequestMethod.GET)
   public String getAvailabilities(Model model) {
     Player player = teamService.getPlayerByFbId(facebook.userOperations().getUserProfile().getId());
-    model.addAttribute("player", player);
     List<Team> teams = player.getTeam();
     List<Game> games = new ArrayList<>();
     teams.forEach((team)->games.addAll(team.getGames()));
-    Collections.sort(games, (x1, x2)-> x1.getDate().compareTo(x2.getDate()));
+    Collections.sort(games, (x1, x2) -> x1.getDate().compareTo(x2.getDate()));
+    model.addAttribute("fbid", facebook.userOperations().getUserProfile().getId());
     model.addAttribute("games", games);
+    model.addAttribute("player", player);
     return "showplayergames";
   }
 
@@ -194,6 +180,22 @@ public class HomeController {
   public String editAva(@ModelAttribute("availability") Availability availability, @PathVariable("id") long id, Model model) {
     Availability savedAvailability = teamService.saveAvailability(availability);
     return "redirect:/player/games/" + id;
+  }
+
+  @RequestMapping(value = "/player/games/{id}", method = RequestMethod.GET)
+  public String getGameForPlayer(@PathVariable("id") long id, Model model) {
+    Game game = teamService.findGameWithAvailability(id);
+    Availability availability = new Availability();
+    List<String> statuses = new ArrayList<>();
+    statuses.add(TeamService.UNDEFINED);
+    statuses.add(TeamService.NOTSURE);
+    statuses.add(TeamService.THERE);
+    statuses.add(TeamService.CANT);
+    model.addAttribute("availability", availability);
+    model.addAttribute("statuses", statuses);
+    model.addAttribute("fbId", facebook.userOperations().getUserProfile().getId());
+    model.addAttribute("game", game);
+    return "showplayeravailability";
   }
 
   @RequestMapping(value = "/", method = RequestMethod.POST)
